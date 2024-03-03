@@ -1,0 +1,26 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "prettier",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:storybook/recommended"
+  ],
+  "rules": {
+    "react-refresh/only-export-components": [
+      {
+        "warn": {
+          "allowConstantExport": true
+        }
+      }
+    ]
+  },
+  "ignorePatterns": [
+    "dist",
+    ".eslintrc.cjs"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "react-refresh"
+  ]
+}
