@@ -22,8 +22,8 @@ Request.args = {
 
 export const Progress = Template.bind({})
 Progress.args = {
-  backgroundColor: theme.statusColor.progress.backgroundColor,
-  color: theme.statusColor.progress.color,
+  backgroundColor: theme.statusColor.processing.backgroundColor,
+  color: theme.statusColor.processing.color,
 }
 
 export const Complete = Template.bind({})

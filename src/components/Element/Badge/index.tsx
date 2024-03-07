@@ -1,8 +1,7 @@
 import { PropsWithChildren } from 'react'
 import styled from 'styled-components'
 
-type BadgeProps = {
-  text: string
+export type BadgeProps = {
   color: string
   backgroundColor: string
   fontSize: string
@@ -18,6 +17,7 @@ color: ${(props) => props.color};
   padding: 5px 10px;
   text-align: center;
   font-weight: bold;
+  width: fit-content;
 `
 
 export const Badge = (props: PropsWithChildren<BadgeProps>) => {

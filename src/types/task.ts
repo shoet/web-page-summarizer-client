@@ -1,6 +1,8 @@
+import { Status } from '@/features/task/components/StatusBadge'
+
 export type Task = {
-  id: number
-  taskStatus: string
+  id: string
+  taskStatus: Status
   pageUrl: string
   title: string
   createdAt: string

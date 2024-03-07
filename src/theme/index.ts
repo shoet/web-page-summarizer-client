@@ -13,7 +13,7 @@ export const theme = {
       color: '#fff',
       backgroundColor: '#fb0',
     },
-    progress: {
+    processing: {
       color: '#fff',
       backgroundColor: '#0ff',
     },
