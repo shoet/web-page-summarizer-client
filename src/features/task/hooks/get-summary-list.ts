@@ -3,9 +3,14 @@ import { apiBaseUrl } from '@/config'
 import { Task } from '@/types/task'
 import useSWR from 'swr'
 
-export const getSummaryList = () => {
+export const getSummaryList = (init: Task[] = []) => {
   const url = `${apiBaseUrl}/task`
-  const { data: tasks, isLoading, error, mutate } = useSWR<Task[]>(url, fetcher)
+  const { data, isLoading, error, mutate } = useSWR<Task[]>(url, fetcher)
 
-  return { tasks, isLoading, error, mutate }
+  return {
+    tasks: data || init,
+    isLoading,
+    error,
+    mutate,
+  }
 }

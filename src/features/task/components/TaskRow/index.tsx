@@ -11,29 +11,41 @@ const RowContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding: 10px;
 `
-const IdContainer = styled.div`
+
+const Cell = styled.div`
+  padding: 5px;
+  overflow: hidden; // はみ出したものを隠す
+  text-overflow: ellipsis; // はみ出したときに省略記号を表示
+  white-space: nowrap; // はみ出したときに改行しない
+`
+
+const IdContainer = styled(Cell)`
   flex: 2;
   font-size: 14px;
 `
 
-const ContentContainer = styled.div`
+const ContentContainer = styled(Cell)`
   flex: 3;
   display: flex;
   flex-direction: column;
   align-items: start;
 `
 
-const TitleContainer = styled.div`
+const TitleContainer = styled(Cell)`
+  font-weight: bold;
 `
-const UrlContainer = styled.div`
+const UrlContainer = styled(Cell)`
+  color: #555;
   font-size: 14px;
 `
-const StatusContainer = styled.div`
+const StatusContainer = styled(Cell)`
   flex: 1;
-  text-align: center;
+  display: flex;
+  justify-content: center;
 `
-const CreatedAtContainer = styled.div`
+const CreatedAtContainer = styled(Cell)`
   flex: 1;
   text-align: center;
   font-size: 14px;
