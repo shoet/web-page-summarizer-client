@@ -5,5 +5,5 @@ export type Task = {
   taskStatus: Status
   pageUrl: string
   title: string
-  createdAt: string
+  createdAt: number
 }

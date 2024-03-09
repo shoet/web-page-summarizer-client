@@ -1,6 +1,7 @@
 import { Task } from '@/types/task'
 import styled from 'styled-components'
 import { StatusBadge } from '../StatusBadge'
+import { dateStrFromTimestamp } from '@/util/date'
 
 type TaskRowProps = {
   task: Task
@@ -22,7 +23,7 @@ const Cell = styled.div`
 `
 
 const IdContainer = styled(Cell)`
-  flex: 2;
+  flex: 1;
   font-size: 14px;
 `
 
@@ -64,7 +65,9 @@ export const TaskRow = (props: TaskRowProps) => {
       <StatusContainer>
         <StatusBadge status={task.taskStatus} />
       </StatusContainer>
-      <CreatedAtContainer>{task.createdAt}</CreatedAtContainer>
+      <CreatedAtContainer>
+        {dateStrFromTimestamp(task.createdAt)}
+      </CreatedAtContainer>
     </RowContainer>
   )
 }
