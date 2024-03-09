@@ -8,4 +8,22 @@ export const theme = {
   fontWeight: {},
   lineHeight: {},
   spacing: {},
+  statusColor: {
+    request: {
+      color: '#fff',
+      backgroundColor: '#fb0',
+    },
+    processing: {
+      color: '#fff',
+      backgroundColor: '#0ff',
+    },
+    complete: {
+      color: '#fff',
+      backgroundColor: '#0f0',
+    },
+    failed: {
+      color: '#fff',
+      backgroundColor: '#f00',
+    },
+  },
 }
