@@ -33,7 +33,7 @@ export const TaskListPage = () => {
           {tasks &&
             tasks.length > 0 &&
             tasks.map((task) => {
-              return <TaskRow key={task.id} task={task} />
+              return <TaskRow key={task.taskId} task={task} />
             })}
         </Rows>
       )}

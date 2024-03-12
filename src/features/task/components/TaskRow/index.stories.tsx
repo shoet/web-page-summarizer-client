@@ -6,11 +6,11 @@ export default {
   component: TaskRow,
   args: {
     task: {
-      id: 'b35b6565-9840-49f1-b955-1a9c151296a1',
+      taskId: 'b35b6565-9840-49f1-b955-1a9c151296a1',
       taskStatus: 'processing',
       pageUrl: 'https://www.google.com',
       title: 'Google',
-      createdAt: '2021-10-01',
+      createdAt: 1,
     },
   },
 } as Meta<typeof TaskRow>

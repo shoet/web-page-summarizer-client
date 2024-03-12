@@ -23,7 +23,7 @@ const Cell = styled.div`
 `
 
 const IdContainer = styled(Cell)`
-  flex: 1;
+  flex: 2;
   font-size: 14px;
 `
 
@@ -53,11 +53,11 @@ const CreatedAtContainer = styled(Cell)`
 `
 
 export const TaskRow = (props: TaskRowProps) => {
-  const { task, onDelete } = props
+  const { task } = props
 
   return (
     <RowContainer>
-      <IdContainer>{task.id}</IdContainer>
+      <IdContainer>{task.taskId}</IdContainer>
       <ContentContainer>
         <TitleContainer>{task.title}</TitleContainer>
         <UrlContainer>{task.pageUrl}</UrlContainer>
