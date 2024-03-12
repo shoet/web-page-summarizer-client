@@ -7,8 +7,6 @@ export default {
   argTypes: {},
 } as Meta<typeof Button>
 
-const params = {}
-
-const Template: StoryFn<typeof Button> = (args) => <Button />
+const Template: StoryFn<typeof Button> = () => <Button />
 
 export const Default = Template.bind({})
