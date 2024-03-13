@@ -23,6 +23,8 @@ const Input = styled.input`
   width: 100%;
   &::placeholder {
     font-size: 16px;
+    position: absolute;
+    top: 30%;
   }
 `
 

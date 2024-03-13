@@ -6,22 +6,27 @@ type TaskListProps = {
   tasks: Task[]
 }
 
-const Rows = styled.div`
-    & > div:not(:last-child) {
-      border-bottom: 1px solid #ddd;
-    }
-  `
+const Divider = styled.div`
+  border-bottom: 1px solid #ddd;
+  width: 90%;
+  margin: 0 auto;
+`
 
 export const TaskList = (props: TaskListProps) => {
   const { tasks } = props
 
   return (
-    <Rows>
+    <div>
       {tasks &&
         tasks.length > 0 &&
-        tasks.map((task) => {
-          return <TaskRow key={task.taskId} task={task} />
+        tasks.map((task, idx) => {
+          return (
+            <>
+              <TaskRow key={task.taskId} task={task} />
+              {idx != tasks.length - 1 && <Divider />}
+            </>
+          )
         })}
-    </Rows>
+    </div>
   )
 }
