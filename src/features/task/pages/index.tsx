@@ -1,6 +1,7 @@
 import styled from 'styled-components'
-import { TaskRow } from '../components/TaskRow'
 import { getSummaryList } from '../hooks/get-summary-list'
+import { TaskList } from '../components/TaskList'
+import { UrlInputForm } from '../components/UrlInputForm'
 
 export const TaskListPage = () => {
   const { tasks, isLoading, error } = getSummaryList()
@@ -13,29 +14,18 @@ export const TaskListPage = () => {
     margin-bottom: 10px;
   `
 
-  const Rows = styled.div`
-    & > div:not(:last-child) {
-      border-bottom: 1px solid #ddd;
-    }
-  `
-
   return (
     <div>
       <TitleContainer>
         <h3>SummaryList</h3>
       </TitleContainer>
+      <UrlInputForm />
       {isLoading ? (
         <div>Loading...</div>
       ) : error ? (
         <div>Error: {error.message}</div>
       ) : (
-        <Rows>
-          {tasks &&
-            tasks.length > 0 &&
-            tasks.map((task) => {
-              return <TaskRow key={task.taskId} task={task} />
-            })}
-        </Rows>
+        <TaskList tasks={tasks} />
       )}
     </div>
   )
