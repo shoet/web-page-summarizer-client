@@ -1,5 +1,5 @@
 import { apiBaseUrl } from '@/config'
-import Axios, { InternalAxiosRequestConfig } from 'axios'
+import Axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios'
 
 export const axios = Axios.create({
   baseURL: apiBaseUrl,
@@ -22,5 +22,7 @@ function axiosErrorInterceptor(error: any) {
 axios.interceptors.request.use(axiosRequestInterceptor)
 axios.interceptors.response.use(axiosResponseInterceptor, axiosErrorInterceptor)
 
-export const fetcher = (url: string) =>
-  axios.request({ url }).then((res) => res.data)
+type params = Omit<AxiosRequestConfig, 'url'>
+
+export const fetcher = (url: string, params?: params) =>
+  axios.request({ url, ...params }).then((res) => res.data)

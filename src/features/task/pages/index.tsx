@@ -2,9 +2,12 @@ import styled from 'styled-components'
 import { getSummaryList } from '../hooks/get-summary-list'
 import { TaskList } from '../components/TaskList'
 import { UrlInputForm } from '../components/UrlInputForm'
+import { requestTask } from '../api/request-task'
+import { useState } from 'react'
 
 export const TaskListPage = () => {
   const { tasks, isLoading, error } = getSummaryList()
+  const [errors, setErrors] = useState<string[]>([])
 
   console.log(tasks)
 
@@ -14,12 +17,21 @@ export const TaskListPage = () => {
     margin-bottom: 10px;
   `
 
+  const handleOnSubmit = async (url: string) => {
+    const { taskId, error } = await requestTask(url)
+    if (error) {
+      setErrors([...errors, error.type])
+      return
+    }
+    console.log(taskId)
+  }
+
   return (
     <div>
       <TitleContainer>
         <h3>SummaryList</h3>
       </TitleContainer>
-      <UrlInputForm />
+      <UrlInputForm onSubmit={handleOnSubmit} />
       {isLoading ? (
         <div>Loading...</div>
       ) : error ? (

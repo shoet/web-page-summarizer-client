@@ -25,6 +25,7 @@ const Input = styled.input`
     font-size: 16px;
     position: absolute;
     top: 30%;
+    padding-left: 5px;
   }
 `
 
@@ -43,6 +44,7 @@ export const UrlInputForm = (props: UrlInputFormProps) => {
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
     if (event.key == 'Enter') {
+      event.preventDefault()
       const input = event.target as HTMLInputElement
       const text = input.value
       console.log(text)
