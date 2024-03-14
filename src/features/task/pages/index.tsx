@@ -6,10 +6,8 @@ import { requestTask } from '../api/request-task'
 import { useState } from 'react'
 
 export const TaskListPage = () => {
-  const { tasks, isLoading, error } = getSummaryList()
+  const { tasks, isLoading, error } = getSummaryList([], 5000)
   const [errors, setErrors] = useState<string[]>([])
-
-  console.log(tasks)
 
   const TitleContainer = styled.div`
     display: flex;
@@ -18,12 +16,11 @@ export const TaskListPage = () => {
   `
 
   const handleOnSubmit = async (url: string) => {
-    const { taskId, error } = await requestTask(url)
+    const { error } = await requestTask(url)
     if (error) {
       setErrors([...errors, error.type])
       return
     }
-    console.log(taskId)
   }
 
   return (
