@@ -1,7 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { ReactNode } from 'react'
 import styled from 'styled-components'
-import { faArrowLeft, faArrowTurnUp } from '@fortawesome/free-solid-svg-icons'
+import {
+  faArrowLeft,
+  faArrowTurnUp,
+  faCircleXmark,
+} from '@fortawesome/free-solid-svg-icons'
 
 type IconProps = {
   size: number
@@ -23,6 +27,7 @@ const withIconStyle = (Icon: ReactNode) => {
 }
 
 export const EnterIcon = withIconStyle(<FontAwesomeIcon icon={faArrowLeft} />)
+export const XmarkIcon = withIconStyle(<FontAwesomeIcon icon={faCircleXmark} />)
 
 const TurnLeftIcon = () => {
   // 時計回りに90度回転する

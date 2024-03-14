@@ -1,5 +1,5 @@
-import { Footer } from '@/components/Molecules/footer'
-import { Header } from '@/components/Molecules/header'
+import { Footer } from '@/components/Molecules/Footer'
+import { Header } from '@/components/Molecules/Header'
 import { PropsWithChildren } from 'react'
 import styled from 'styled-components'
 
