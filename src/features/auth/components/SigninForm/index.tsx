@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 type SigninFormProps = {
@@ -56,7 +55,6 @@ const HeightSpacer = styled.div<{ height: number }>`
 
 export const SigninForm = (props: SigninFormProps) => {
   const { signin } = props
-  const navigate = useNavigate()
 
   const {
     register,
@@ -65,8 +63,12 @@ export const SigninForm = (props: SigninFormProps) => {
   } = useForm<SigninFormData>()
 
   const onSubmit = async (data: SigninFormData) => {
-    await signin(data.email, data.password)
-    navigate('/')
+    try {
+      await signin(data.email, data.password)
+    } catch (err) {
+      console.log('submit failed')
+      throw err
+    }
   }
 
   return (

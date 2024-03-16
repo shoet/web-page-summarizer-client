@@ -2,6 +2,7 @@ import { ErrorMessage } from '@/components/Molecules/ErrorMessage'
 import { useAuthContext } from '@/context/AuthContext'
 import { SigninForm } from '@/features/auth/components/SigninForm'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 const OuterContainer = styled.div`
@@ -29,10 +30,12 @@ const ErrorContainer = styled.div`
 export const LoginPage = () => {
   const { signIn } = useAuthContext()
   const [error, setError] = useState('')
+  const navigate = useNavigate()
 
   const handleSignIn = async (email: string, password: string) => {
     try {
       await signIn(email, password)
+      navigate('/')
     } catch (error) {
       setError('Error signing in')
     }
