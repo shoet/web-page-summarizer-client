@@ -1,8 +1,9 @@
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 type SigninFormProps = {
-  signin?: (email: string, password: string) => Promise<void>
+  signin: (email: string, password: string) => Promise<void>
 }
 
 type SigninFormData = {
@@ -32,7 +33,7 @@ const TextInput = styled.input<{ hasError?: boolean }>`
 
 const SubmitButton = styled.button`
   margin: 0px auto;
-  width: 70%;
+  width: 50%;
   font-size: 30px;
   font-weight: bold;
   color: white;
@@ -44,6 +45,7 @@ const SubmitButton = styled.button`
 `
 
 const ValidationMessage = styled.div`
+  text-align: left;
   font-size: 14px;
   color: red;
 `
@@ -54,6 +56,7 @@ const HeightSpacer = styled.div<{ height: number }>`
 
 export const SigninForm = (props: SigninFormProps) => {
   const { signin } = props
+  const navigate = useNavigate()
 
   const {
     register,
@@ -61,8 +64,9 @@ export const SigninForm = (props: SigninFormProps) => {
     handleSubmit,
   } = useForm<SigninFormData>()
 
-  const onSubmit = (data: SigninFormData) => {
-    signin && signin(data.email, data.password)
+  const onSubmit = async (data: SigninFormData) => {
+    await signin(data.email, data.password)
+    navigate('/')
   }
 
   return (
@@ -81,6 +85,7 @@ export const SigninForm = (props: SigninFormProps) => {
         <HeightSpacer height={10} />
         <TextInput
           placeholder="Password"
+          type="password"
           {...register('password', {
             required: 'パスワードを入力してください。',
           })}
