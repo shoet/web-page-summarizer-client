@@ -1,6 +1,6 @@
 import './App.css'
 import { MainLayout } from './components/Layout/MainLayout'
-import { TaskListPage } from './features/task/pages'
+import { TaskListPage } from './pages/TaskListPage'
 
 function App() {
   return (
