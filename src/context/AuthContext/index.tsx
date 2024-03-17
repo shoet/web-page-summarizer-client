@@ -1,6 +1,8 @@
 import { fetcher } from '@/api/fetcher'
 import { apiBaseUrl } from '@/config'
 import { PropsWithChildren, createContext, useContext, useState } from 'react'
+import { jwtDecode } from 'jwt-decode'
+import { parseCookie } from '@/util/cookie'
 
 type User = {
   accessToken: string
@@ -13,11 +15,16 @@ type UserInfo = {
   username: string
 }
 
-function parseToken(token: string): UserInfo {
-  // TODO
+type JWTPayload = {
+  email: string
+  name: string
+}
+
+export function parseToken(token: string): UserInfo {
+  const payload: JWTPayload = jwtDecode(token)
   return {
-    email: '',
-    username: '',
+    email: payload.email,
+    username: payload.name,
   }
 }
 
@@ -26,6 +33,7 @@ type AuthContextData = {
   signOut: () => Promise<void>
   user?: User
   mutate: () => Promise<void>
+  getUserInfo: () => UserInfo | undefined
 }
 
 const AuthContext = createContext<AuthContextData>({
@@ -33,6 +41,7 @@ const AuthContext = createContext<AuthContextData>({
   signOut: async () => {},
   user: undefined,
   mutate: async () => {},
+  getUserInfo: () => undefined,
 })
 
 export const useAuthContext = () => useContext(AuthContext)
@@ -53,9 +62,10 @@ export const AuthContextProvider = (props: PropsWithChildren) => {
         headers: {
           'Content-Type': 'application/json',
         },
+        withCredentials: true,
       })
       setUser(response)
-    } catch (err: unknown) {
+    } catch (err) {
       console.log('signin failure')
       console.log(err)
       throw err
@@ -82,11 +92,21 @@ export const AuthContextProvider = (props: PropsWithChildren) => {
     }
   }
 
+  const getUserInfoFunc = () => {
+    const cookie = parseCookie(document.cookie)
+    const idToken = cookie.get('authToken')
+    if (idToken === undefined) {
+      return undefined
+    }
+    return parseToken(idToken)
+  }
+
   const data: AuthContextData = {
     user,
     signIn: signinFunc,
     signOut: async () => {},
     mutate: mutateFunc,
+    getUserInfo: getUserInfoFunc,
   }
 
   return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>
