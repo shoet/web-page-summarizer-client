@@ -17,19 +17,21 @@ const LogoutText = styled.span`
 `
 
 export const Header = () => {
-  const { getUserInfo, signOut } = useAuthContext()
-  const userInfo = getUserInfo()
-
+  const { signOut, isLoading, user } = useAuthContext()
   return (
     <div>
-      {userInfo && (
-        <HeaderContainer>
-          <div></div>
-          <div>
-            Hi! {userInfo.username}
-            <LogoutText onClick={signOut}>Logout</LogoutText>
-          </div>
-        </HeaderContainer>
+      {isLoading ? (
+        <div>loading...</div>
+      ) : (
+        user && (
+          <HeaderContainer>
+            <div></div>
+            <div>
+              Hi! {user.username}
+              <LogoutText onClick={signOut}>Logout</LogoutText>
+            </div>
+          </HeaderContainer>
+        )
       )}
     </div>
   )

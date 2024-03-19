@@ -1,59 +1,47 @@
 import { fetcher } from '@/api/fetcher'
 import { apiBaseUrl } from '@/config'
-import { PropsWithChildren, createContext, useContext, useState } from 'react'
-import { jwtDecode } from 'jwt-decode'
-import { parseCookie } from '@/util/cookie'
+import { PropsWithChildren, createContext, useContext } from 'react'
+import useSWR from 'swr'
 
 type User = {
-  accessToken: string
-  idToken: string
-  refreshToken: string
-}
-
-type UserInfo = {
   email: string
   username: string
 }
 
-type JWTPayload = {
-  email: string
-  name: string
-}
-
-export function parseToken(token: string): UserInfo {
-  const payload: JWTPayload = jwtDecode(token)
-  return {
-    email: payload.email,
-    username: payload.name,
-  }
-}
-
 type AuthContextData = {
+  user?: User
+  isLoading: boolean
   signIn: (email: string, password: string) => Promise<void>
   signOut: () => Promise<void>
-  user?: User
-  mutate: () => Promise<void>
-  getUserInfo: () => UserInfo | undefined
+  mutate: () => Promise<User | undefined>
 }
 
 const AuthContext = createContext<AuthContextData>({
+  isLoading: false,
+  user: undefined,
   signIn: async () => {},
   signOut: async () => {},
-  user: undefined,
-  mutate: async () => {},
-  getUserInfo: () => undefined,
+  mutate: async () => undefined,
 })
 
 export const useAuthContext = () => useContext(AuthContext)
 
 export const AuthContextProvider = (props: PropsWithChildren) => {
   const { children } = props
-  const [user, setUser] = useState<User>()
+
+  const credentialFetcher = (url: string) =>
+    fetcher(url, { withCredentials: true })
+
+  const {
+    data: userInfo,
+    isLoading,
+    mutate,
+  } = useSWR<User>(`${apiBaseUrl}/auth/me`, credentialFetcher)
 
   const signinFunc = async (email: string, password: string) => {
     try {
       const url = `${apiBaseUrl}/auth`
-      const response: User = await fetcher(url, {
+      await fetcher(url, {
         method: 'POST',
         data: {
           email: email,
@@ -64,7 +52,7 @@ export const AuthContextProvider = (props: PropsWithChildren) => {
         },
         withCredentials: true,
       })
-      setUser(response)
+      await mutate()
     } catch (err) {
       console.log('signin failure')
       console.log(err)
@@ -72,41 +60,12 @@ export const AuthContextProvider = (props: PropsWithChildren) => {
     }
   }
 
-  const mutateFunc = async () => {
-    const url = `${apiBaseUrl}/auth/me`
-    if (user === undefined) {
-      console.log('session is invalid')
-      return
-    }
-    try {
-      await fetcher(url, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${user.idToken}`,
-        },
-      })
-    } catch (err: unknown) {
-      console.log('session is invalid')
-      console.log(err)
-      setUser(undefined)
-    }
-  }
-
-  const getUserInfoFunc = () => {
-    const cookie = parseCookie(document.cookie)
-    const idToken = cookie.get('authToken')
-    if (idToken === undefined) {
-      return undefined
-    }
-    return parseToken(idToken)
-  }
-
   const data: AuthContextData = {
-    user,
+    user: userInfo,
+    isLoading,
     signIn: signinFunc,
     signOut: async () => {},
-    mutate: mutateFunc,
-    getUserInfo: getUserInfoFunc,
+    mutate: mutate,
   }
 
   return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>
