@@ -26,10 +26,11 @@ export const Header = () => {
   }
 
   const { signOut, isLoading, user } = useAuthContext()
+
   return (
     <div>
       {isLoading ? (
-        <div>loading...</div>
+        <div></div>
       ) : (
         user && (
           <HeaderContainer>

@@ -1,6 +1,7 @@
 import { fetcher } from '@/api/fetcher'
 import { apiBaseUrl } from '@/config'
-import { PropsWithChildren, createContext, useContext } from 'react'
+import { PropsWithChildren, createContext, useContext, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import useSWR from 'swr'
 
 type User = {
@@ -8,7 +9,7 @@ type User = {
   username: string
 }
 
-type AuthContextData = {
+export type AuthContextData = {
   user?: User
   isLoading: boolean
   signIn: (email: string, password: string) => Promise<void>
@@ -16,7 +17,7 @@ type AuthContextData = {
   mutate: () => Promise<User | undefined>
 }
 
-const AuthContext = createContext<AuthContextData>({
+export const AuthContext = createContext<AuthContextData>({
   isLoading: false,
   user: undefined,
   signIn: async () => {},
@@ -84,4 +85,15 @@ export const AuthContextProvider = (props: PropsWithChildren) => {
   }
 
   return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>
+}
+
+export const AuthGuard = () => {
+  const { user } = useAuthContext()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/auth')
+    }
+  }, [])
 }

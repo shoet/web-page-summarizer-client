@@ -5,8 +5,11 @@ import { getSummaryList } from '@/features/task/hooks/get-summary-list'
 import { requestTask } from '@/features/task/api/request-task'
 import { UrlInputForm } from '@/features/task/components/UrlInputForm'
 import { TaskList } from '@/features/task/components/TaskList'
+import { AuthGuard } from '@/context/AuthContext'
 
 export const TaskListPage = () => {
+  AuthGuard()
+
   const { tasks, isLoading, error } = getSummaryList([], 5000)
   const [errors, setErrors] = useState<string[]>([])
 
