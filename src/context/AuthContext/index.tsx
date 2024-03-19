@@ -60,11 +60,26 @@ export const AuthContextProvider = (props: PropsWithChildren) => {
     }
   }
 
+  const signoutFunc = async () => {
+    try {
+      const url = `${apiBaseUrl}/auth/logout`
+      await fetcher(url, {
+        method: 'POST',
+        withCredentials: true,
+      })
+      mutate(undefined, false)
+    } catch (err) {
+      console.log('signout failure')
+      console.log(err)
+      throw err
+    }
+  }
+
   const data: AuthContextData = {
     user: userInfo,
     isLoading,
     signIn: signinFunc,
-    signOut: async () => {},
+    signOut: signoutFunc,
     mutate: mutate,
   }
 

@@ -1,4 +1,5 @@
 import { useAuthContext } from '@/context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
 const HeaderContainer = styled.div`
@@ -17,6 +18,13 @@ const LogoutText = styled.span`
 `
 
 export const Header = () => {
+  const navigate = useNavigate()
+
+  const handleOnSignOut = async () => {
+    await signOut()
+    navigate('/auth')
+  }
+
   const { signOut, isLoading, user } = useAuthContext()
   return (
     <div>
@@ -28,7 +36,7 @@ export const Header = () => {
             <div></div>
             <div>
               Hi! {user.username}
-              <LogoutText onClick={signOut}>Logout</LogoutText>
+              <LogoutText onClick={handleOnSignOut}>Logout</LogoutText>
             </div>
           </HeaderContainer>
         )
