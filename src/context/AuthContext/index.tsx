@@ -40,7 +40,7 @@ export const AuthContextProvider = (props: PropsWithChildren) => {
 
   const signinFunc = async (email: string, password: string) => {
     try {
-      const url = `${apiBaseUrl}/auth`
+      const url = `${apiBaseUrl}/auth/login`
       await fetcher(url, {
         method: 'POST',
         data: {
