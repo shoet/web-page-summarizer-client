@@ -24,5 +24,12 @@ axios.interceptors.response.use(axiosResponseInterceptor, axiosErrorInterceptor)
 
 type params = Omit<AxiosRequestConfig, 'url'>
 
-export const fetcher = (url: string, params?: params) =>
-  axios.request({ url, ...params }).then((res) => res.data)
+export const fetcher = async (url: string, params?: params) => {
+  try {
+    const response = await axios.request({ url, ...params })
+    return response.data
+  } catch (err) {
+    console.log('network error')
+    throw err
+  }
+}

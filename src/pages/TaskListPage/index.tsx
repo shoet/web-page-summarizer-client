@@ -1,10 +1,10 @@
 import styled from 'styled-components'
-import { getSummaryList } from '../hooks/get-summary-list'
-import { TaskList } from '../components/TaskList'
-import { UrlInputForm } from '../components/UrlInputForm'
-import { requestTask } from '../api/request-task'
 import { useState } from 'react'
 import { ErrorMessage } from '@/components/Molecules/ErrorMessage'
+import { getSummaryList } from '@/features/task/hooks/get-summary-list'
+import { requestTask } from '@/features/task/api/request-task'
+import { UrlInputForm } from '@/features/task/components/UrlInputForm'
+import { TaskList } from '@/features/task/components/TaskList'
 
 export const TaskListPage = () => {
   const { tasks, isLoading, error } = getSummaryList([], 5000)
