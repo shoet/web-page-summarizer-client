@@ -1,4 +1,6 @@
+import { useSessionContext } from '@/context/SessionContext'
 import { useAuthenticator } from '@aws-amplify/ui-react'
+import { useEffect } from 'react'
 import styled from 'styled-components'
 
 const HeaderContainer = styled.div`
@@ -18,14 +20,19 @@ const LogoutText = styled.span`
 
 export const Header = () => {
   const { user, signOut } = useAuthenticator()
+  const { userInfo, isLoading, mutate } = useSessionContext()
+
+  useEffect(() => {
+    mutate()
+  }, [])
 
   return (
     <div>
-      {user && (
+      {user && !isLoading && (
         <HeaderContainer>
           <div></div>
           <div>
-            Hi! {user.username}
+            {userInfo && `Hi! ${userInfo.username}`}
             <LogoutText onClick={signOut}>Logout</LogoutText>
           </div>
         </HeaderContainer>

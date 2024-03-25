@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom/client'
 import { ThemeProvider } from 'styled-components'
 import { theme } from './theme/index.ts'
 import { GlobalStyle } from './components/Layout/GlobalStayle/index.tsx'
-import { AuthContextProvider } from './context/AuthContext/index.tsx'
 import { Routes } from './router.tsx'
 import { Amplify } from 'aws-amplify'
 import '@aws-amplify/ui-react/styles.css'
 import { Authenticator } from '@aws-amplify/ui-react'
 import { cognitoConfig } from '@/config'
+import { SessionContextProvider } from './context/SessionContext/index.tsx'
 
 Amplify.configure({
   Auth: {
@@ -68,12 +68,12 @@ const formFields = {
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Authenticator formFields={formFields} socialProviders={['google']}>
-      <GlobalStyle />
-      <ThemeProvider theme={theme}>
-        <AuthContextProvider>
+      <SessionContextProvider>
+        <GlobalStyle />
+        <ThemeProvider theme={theme}>
           <Routes />
-        </AuthContextProvider>
-      </ThemeProvider>
+        </ThemeProvider>
+      </SessionContextProvider>
     </Authenticator>
   </React.StrictMode>
 )

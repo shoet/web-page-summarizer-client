@@ -21,10 +21,10 @@ export const TaskList = (props: TaskListProps) => {
         tasks.length > 0 &&
         tasks.map((task, idx) => {
           return (
-            <>
-              <TaskRow key={task.taskId} task={task} />
+            <div key={task.taskId}>
+              <TaskRow task={task} />
               {idx != tasks.length - 1 && <Divider />}
-            </>
+            </div>
           )
         })}
     </div>
