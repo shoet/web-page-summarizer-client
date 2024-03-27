@@ -31,10 +31,8 @@ export const SessionContextProvider = (props: PropsWithChildren) => {
         const tokenPayload = data.tokens.idToken.payload
         const username = tokenPayload['name']?.toString()
         const email = tokenPayload['email']?.toString()
-        const idToken = data.tokens.idToken.toString()
-        const accessToken = data.tokens.accessToken.toString()
         if (username && email) {
-          const info = { username, email, idToken, accessToken }
+          const info = { username, email }
           setUserInfo(info)
         }
       }

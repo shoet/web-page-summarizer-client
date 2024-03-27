@@ -1,13 +1,13 @@
 import styled from 'styled-components'
 import { useState } from 'react'
 import { ErrorMessage } from '@/components/Molecules/ErrorMessage'
-import { getSummaryList } from '@/features/task/hooks/get-summary-list'
+import { useSummaryList } from '@/features/task/hooks/get-summary-list'
 import { requestTask } from '@/features/task/api/request-task'
 import { UrlInputForm } from '@/features/task/components/UrlInputForm'
 import { TaskList } from '@/features/task/components/TaskList'
 
 export const TaskListPage = () => {
-  const { tasks, isLoading, error } = getSummaryList([], 5000)
+  const { tasks, isLoading, error } = useSummaryList([], 5000)
   const [errors, setErrors] = useState<string[]>([])
 
   const TitleContainer = styled.div`
