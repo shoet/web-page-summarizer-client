@@ -1,4 +1,5 @@
 import { apiBaseUrl } from '@/config'
+import { fetchAuthSession } from '@aws-amplify/auth'
 import Axios, { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios'
 
 export const axios = Axios.create({
@@ -32,4 +33,27 @@ export const fetcher = async (url: string, params?: params) => {
     console.log('network error')
     throw err
   }
+}
+
+export const authFetcher = async (url: string, params?: RequestInit) => {
+  const session = await fetchAuthSession()
+  const accessToken = session.tokens?.accessToken
+
+  const newParams: RequestInit = {
+    ...params,
+    method: params?.method || 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      ...params?.headers,
+    },
+  }
+  if (accessToken) {
+    newParams.headers = {
+      ...params?.headers,
+      Authorization: `Bearer ${accessToken}`,
+    }
+  } else {
+    console.log('No token')
+  }
+  return fetch(url, newParams).then((res) => res.json())
 }
