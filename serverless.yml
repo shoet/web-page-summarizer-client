@@ -4,21 +4,22 @@ frameworkVersion: '3'
 provider:
   name: aws
   region: ap-northeast-1
-  environment:
+  stage: prod
   ecr:
     images:
       SPAServerImage:
+        name: ${self:service}-${self:provider.stage}-spa-image
         path: ./
         file: Dockerfile
         platform: linux/amd64
 
 functions:
   BlogBackend:
+    name: ${self:service}-${self:provider.stage}-spa-server
     role: LambdaRole
     image:
       name: SPAServerImage
-    name: spa-server
-    description: 'web-page-summarizer-client'
+    description: 'web-page-summarizer-client ${self:provider.stage}'
     events:
       - httpApi:
           path: /{proxy+}
@@ -30,7 +31,7 @@ resources:
     LambdaRole:
       Type: AWS::IAM::Role
       Properties:
-        RoleName: LambdaRole
+        RoleName: ${self:service}-${self:provider.stage}-lambda-role
         AssumeRolePolicyDocument:
           Statement:
             - Effect: 'Allow'
@@ -40,7 +41,7 @@ resources:
               Action:
                 - 'sts:AssumeRole'
         Policies:
-          - PolicyName: LambdaPolicy
+          - PolicyName: ${self:service}-${self:provider.stage}-lambda-policy
             PolicyDocument:
               Statement:
                 - Effect: 'Allow'
