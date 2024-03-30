@@ -1,4 +1,4 @@
-import { fetcher } from '@/api/fetcher'
+import { authFetcher } from '@/api/fetcher'
 import { apiBaseUrl } from '@/config'
 
 type RequestTaskResponse = {
@@ -21,9 +21,9 @@ export async function requestTask(url: string): Promise<RequestTaskResponse> {
     const data = {
       url: url,
     }
-    const result: RequestTaskResponse = await fetcher(`${apiBaseUrl}/task`, {
+    const result = await authFetcher(`${apiBaseUrl}/task`, {
       method: 'POST',
-      data,
+      body: JSON.stringify(data),
     })
     return {
       taskId: result.taskId,
