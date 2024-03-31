@@ -13,6 +13,19 @@ provider:
         file: Dockerfile
         platform: linux/amd64
 
+plugins:
+  - serverless-domain-manager
+
+custom:
+  customDomain:
+    domainName: ${ssm:/web-page-summarizer/${self:provider.stage}/DOMAIN_NAME_FRONTEND}
+    stage: ${self:provider.stage}
+    certificateArn: ${ssm:/web-page-summarizer/${self:provider.stage}/DOMAIN_CERTIFICATE_ARN}
+    createRoute53Record: true
+    endpointType: 'regional'
+    securityPolicy: tls_1_2
+    apiType: http
+
 functions:
   BlogBackend:
     name: ${self:service}-${self:provider.stage}-spa-server
