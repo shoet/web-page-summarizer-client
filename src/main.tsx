@@ -7,7 +7,7 @@ import { Routes } from './router.tsx'
 import { Amplify } from 'aws-amplify'
 import '@aws-amplify/ui-react/styles.css'
 import { Authenticator } from '@aws-amplify/ui-react'
-import { cognitoConfig } from '@/config'
+import { cognitoConfig, baseAppTitle } from '@/config'
 import { SessionContextProvider } from './context/SessionContext/index.tsx'
 
 Amplify.configure({
@@ -64,6 +64,8 @@ const formFields = {
     },
   },
 }
+
+document.title = baseAppTitle
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
