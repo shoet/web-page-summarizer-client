@@ -7,3 +7,5 @@ export const cognitoConfig = {
   oauthDomain: import.meta.env.VITE_AWS_COGNITO_DOMAIN,
   oauthRedirectSignIn: import.meta.env.VITE_AWS_COGNITO_REDIRECT_SIGN_IN,
 }
+
+export const baseAppTitle = 'Webページ要約'
