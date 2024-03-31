@@ -1,26 +1,31 @@
 import { useSessionContext } from '@/context/SessionContext'
-import { useAuthenticator } from '@aws-amplify/ui-react'
 import { useEffect } from 'react'
 import styled from 'styled-components'
 
 const HeaderContainer = styled.div`
+  min-height: 50px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 0px 10px;
 `
 
-const LogoutText = styled.span`
+const LogoutButton = styled.button`
   margin-left: 10px;
-  border-bottom: 1px solid blue;
-  color: blue;
-  font-size: 20px;
+  border: none;
+  background-color: gray;
+  color: white;
+  border-radius: 5px;
+  padding: 2px 10px;
   cursor: pointer;
+  &:hover {
+    background-color: lightgray;
+    transition: 0.3s;
+  }
 `
 
 export const Header = () => {
-  const { user, signOut } = useAuthenticator()
-  const { userInfo, isLoading, mutate } = useSessionContext()
+  const { userInfo, mutate, signOut } = useSessionContext()
 
   useEffect(() => {
     mutate()
@@ -28,15 +33,17 @@ export const Header = () => {
 
   return (
     <div>
-      {user && !isLoading && (
-        <HeaderContainer>
-          <div></div>
+      <HeaderContainer>
+        <div>
+          <h1>Webページ要約</h1>
+        </div>
+        {userInfo && (
           <div>
-            {userInfo && `Hi! ${userInfo.username}`}
-            <LogoutText onClick={signOut}>Logout</LogoutText>
+            <span>こんにちは！ {userInfo.username} さん</span>
+            <LogoutButton onClick={signOut}>Logout</LogoutButton>
           </div>
-        </HeaderContainer>
-      )}
+        )}
+      </HeaderContainer>
     </div>
   )
 }

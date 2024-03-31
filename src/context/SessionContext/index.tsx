@@ -1,11 +1,12 @@
 import { UserInfo } from '@/types/user'
-import { fetchAuthSession } from '@aws-amplify/auth'
+import { fetchAuthSession, signOut } from '@aws-amplify/auth'
 import { PropsWithChildren, createContext, useContext, useState } from 'react'
 
 type SessionContextData = {
   userInfo?: UserInfo
   isLoading: boolean
   error?: Error
+  signOut: () => Promise<void>
   mutate: () => Promise<void>
 }
 
@@ -14,6 +15,7 @@ export const useSessionContext = () =>
 
 const SessionContext = createContext<SessionContextData>({
   isLoading: false,
+  signOut: async () => {},
   mutate: async () => {},
 })
 
@@ -48,10 +50,27 @@ export const SessionContextProvider = (props: PropsWithChildren) => {
     }
   }
 
+  const signOutFunc = async () => {
+    try {
+      await signOut()
+      console.log('sign out')
+    } catch (error) {
+      console.log(error)
+      if (error instanceof Error) {
+        setError(error)
+      } else {
+        setError(new Error('An unknown error occurred'))
+      }
+    } finally {
+      setUserInfo(undefined)
+    }
+  }
+
   const data: SessionContextData = {
     userInfo,
     isLoading,
     error,
+    signOut: signOutFunc,
     mutate: mutateFunc,
   }
 

@@ -10,12 +10,6 @@ export const TaskListPage = () => {
   const { tasks, isLoading, error } = useSummaryList([], 5000)
   const [errors, setErrors] = useState<string[]>([])
 
-  const TitleContainer = styled.div`
-    display: flex;
-    justify-content: start;
-    margin-bottom: 10px;
-  `
-
   const handleOnSubmit = async (url: string) => {
     const { error } = await requestTask(url)
     if (error) {
@@ -35,9 +29,6 @@ export const TaskListPage = () => {
 
   return (
     <div>
-      <TitleContainer>
-        <h3>SummaryList</h3>
-      </TitleContainer>
       {errors.length > 0 && (
         <ErrorContainer>
           {errors.map((error, idx) => {

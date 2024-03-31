@@ -9,6 +9,11 @@ import '@aws-amplify/ui-react/styles.css'
 import { Authenticator } from '@aws-amplify/ui-react'
 import { cognitoConfig, baseAppTitle } from '@/config'
 import { SessionContextProvider } from './context/SessionContext/index.tsx'
+import { I18n } from 'aws-amplify/utils'
+import { translations } from '@aws-amplify/ui-react'
+import { MainLayout } from './components/Layout/MainLayout'
+I18n.putVocabularies(translations)
+I18n.setLanguage('ja')
 
 Amplify.configure({
   Auth: {
@@ -69,13 +74,15 @@ document.title = baseAppTitle
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <Authenticator formFields={formFields} socialProviders={['google']}>
+    <GlobalStyle />
+    <ThemeProvider theme={theme}>
       <SessionContextProvider>
-        <GlobalStyle />
-        <ThemeProvider theme={theme}>
-          <Routes />
-        </ThemeProvider>
+        <MainLayout>
+          <Authenticator formFields={formFields} socialProviders={['google']}>
+            <Routes />
+          </Authenticator>
+        </MainLayout>
       </SessionContextProvider>
-    </Authenticator>
+    </ThemeProvider>
   </React.StrictMode>
 )
