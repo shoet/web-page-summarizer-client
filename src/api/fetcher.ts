@@ -50,7 +50,7 @@ export const authFetcher = async (url: string, params?: RequestInit) => {
   if (accessToken) {
     newParams.headers = {
       ...params?.headers,
-      Authorization: `Bearer ${accessToken}`,
+      authorization: `Bearer ${accessToken}`,
     }
   } else {
     console.log('No token')
