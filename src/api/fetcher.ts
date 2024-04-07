@@ -35,7 +35,7 @@ export const fetcher = async (url: string, params?: params) => {
   }
 }
 
-export const authFetcher = async (url: string, params?: RequestInit) => {
+export const authFetcher = async <T>(url: string, params?: RequestInit) => {
   const session = await fetchAuthSession()
   const accessToken = session.tokens?.accessToken
 
@@ -55,5 +55,5 @@ export const authFetcher = async (url: string, params?: RequestInit) => {
   } else {
     console.log('No token')
   }
-  return fetch(url, newParams).then((res) => res.json())
+  return <T>fetch(url, newParams).then((res) => res.json())
 }

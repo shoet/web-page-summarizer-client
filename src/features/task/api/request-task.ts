@@ -16,17 +16,21 @@ type RequestTaskError =
       message: string
     }
 
+type Response = {
+  task_id: string
+}
+
 export async function requestTask(url: string): Promise<RequestTaskResponse> {
   try {
     const data = {
       url: url,
     }
-    const result = await authFetcher(`${apiBaseUrl}/task`, {
+    const result = await authFetcher<Response>(`${apiBaseUrl}/task`, {
       method: 'POST',
       body: JSON.stringify(data),
     })
     return {
-      taskId: result.taskId,
+      taskId: result.task_id,
     }
   } catch (error) {
     return {
